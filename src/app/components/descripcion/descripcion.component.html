@@ -1,0 +1,52 @@
+<div class="p-2">
+    <div class="p-2">
+        <span><strong>También puede interesarte: </strong> computadora - canaima - antminer s9 - laptop canaima - canaima letras rojas</span>
+    </div>
+    <div class="two-columns-container p-2 pt-4">
+        <div class="left-align">Volver al listado | accesorios electronicos > {{producto.nombre}}</div>
+        <div class="right-align">Compartir | Vender uno igual</div>
+    </div>
+</div>
+<div *ngIf="producto" class="descripcion-grid" >
+    <div class="imagen">
+        <img [src]="producto.imagenUrl" [alt]="producto.nombre">
+    </div>
+    <div class="detalles rounded-3">
+        <p class="greys">Nuevo | 202 vendidos</p>
+        <h1>{{ producto.nombre }}</h1>
+        <div class="star-rating">
+            <mat-icon 
+                *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                (click)="setRating(i + 1)"
+                [style.color]="i < currentRating ? 'rgb(84, 181, 249)' : 'lightgray'">
+                {{ i < currentRating ? 'star' : 'star_border' }}
+            </mat-icon>
+            <p class="greys">9 opiniones</p>
+        </div>
+        
+        <div class="info" *ngIf="producto && valorBs !== null">
+            <p class="precio"><strong></strong>U$S {{ producto.precio }}</p>
+            <p *ngIf="valorBs!=0">
+                <strong>Bs. {{  valorBs | number:'1.2-2'  }}</strong>
+            </p>
+
+            <p style="color: #54b5f9;">Ver medios de pagos</p>
+            <div class="envio">
+                <span class="envio-icono">
+                    <i class="bi bi-truck"></i>
+                </span>
+                <span class="envio-texto">
+                    <p style="color: #2e7d32;">{{ producto.tipoEnvio }} a todo el pais</p>
+                    <p style="color: #adaeae;" >Barquisimeto, Lara</p>
+                    <p style="color: #54b5f9;">Ver costos del envio</p>
+                </span>
+            </div>
+            <p>Cantidad: 1 unidad <i class="bi bi-chevron-down"></i><strong style="color: #adaeae;"> (8 diponibles)</strong></p>
+
+        </div>
+
+        <button class="btn btn-primary container-fluid p-2">Comprar ahora</button>
+    </div>
+
+
+</div>

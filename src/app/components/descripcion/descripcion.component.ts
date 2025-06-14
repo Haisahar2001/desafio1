@@ -1,28 +1,30 @@
-import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, MatCardModule, MatButtonModule, MatDividerModule, MatIconModule, NgFor, NgIf, NgClass],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  selector: 'app-descripcion',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule, RouterModule, MatIconModule],
+  templateUrl: './descripcion.component.html',
+  styleUrls: ['./descripcion.component.css']
 })
-export class AppComponent {
-  title = 'desafio1';
+export class DescripcionComponent implements OnInit {
+  idProducto: number | null = null;
+  producto: any = null;
+  
 
-  productoSeleccionado: any = null;
+  currentRating = 0;
 
- 
-productos = [
+  setRating(rating: number) {
+    this.currentRating = rating;
+  }
+
+  productos = [
     {
       id: 1,
       nombre: 'Smartphone Galaxy S21',
@@ -94,14 +96,27 @@ productos = [
       tipoEnvio: 'Envío asegurado'
     }
   ];
+  valorDolar: number = 0;
+  valorBs: number = 0;
+  valorPrincipio: number = this.valorDolar + 1;
+  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
+    fetch('https://ve.dolarapi.com/v1/dolares/oficial')
+    .then(response => response.json())
+    .then(data => {
+      this.valorDolar = data.promedio;
 
-  constructor(private router: Router) {}
+      console.log(data);
+      console.log(this.valorDolar +'hola');
+    });
 
-  seleccionarProducto(producto: any) {
-    this.router.navigate(['/descripcion', producto.id]);
   }
 
-  seleccionarDetalles(producto: any) {
-    this.productoSeleccionado = producto;
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.idProducto = +params['id'];
+      this.producto = this.productos.find(p => p.id === this.idProducto);
+      this.valorBs =this.producto.precio *  this.valorDolar ;
+    });
+    
   }
 }

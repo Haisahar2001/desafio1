@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+*{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+body{
+    margin: 0;
+    background-color: rgb(232, 230, 228);
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
